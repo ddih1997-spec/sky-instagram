@@ -77,6 +77,14 @@ th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform
 pre.tpl{margin:0;white-space:pre-wrap;font-family:var(--f-mono);font-size:.82rem;line-height:1.6;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
 button.copy{font:inherit;font-size:.82rem;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;padding:8px 12px;border-radius:8px;cursor:pointer;justify-self:start}
 button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+button.pr{font:inherit;font-size:.82rem;font-weight:600;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.pr[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink)}
+button.pr:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.pbox{display:grid;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
+.pbox textarea{width:100%;font:inherit;font-size:.82rem;line-height:1.5;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;resize:vertical}
+.prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.prow a{color:var(--accent);font-weight:600;font-size:.85rem}
 </style>
 
 <div class="wrap">
@@ -127,7 +135,7 @@ button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 <section id="semanas">
   <h2>Semanas e tarefas do dia</h2>
-  <p class="sub">Comece pelo arranque (quarta 21/10). Marque cada tarefa como feita; o progresso fica salvo só neste navegador. Para o Diego acompanhar, use o botão de copiar resumo.</p>
+  <p class="sub">Comece pelo arranque (quarta 21/10). Marque cada tarefa como feita; o progresso fica salvo só neste navegador. Para o Diego acompanhar, use o botão de copiar resumo. Em cada tarefa, o botão Criar prompt monta um pedido pronto para colar na IA que você preferir (ChatGPT, Claude ou Gemini). A IA escreve o rascunho; números, preços e fatos você sempre confere antes de enviar para revisão.</p>
   <div class="legend" aria-label="Legenda de objetivos">
     <span><i style="background:var(--pas)"></i>Passagem aérea</span>
     <span><i style="background:var(--b2b)"></i>B2B (empresas)</span>
@@ -324,6 +332,39 @@ function get(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}cat
 function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 var done=get('skyjoao',{}),cur=0;
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+var openId=null,extra={};
+var LINK={pas:{n:'Cotar passagem',u:'https://skyexclusive.com.br/?origem=ig-passagem'},b2b:{n:'Para empresas',u:'https://skyexclusive.com.br/?origem=ig-empresas#empresas'},con:{n:'Concierge',u:'https://skyexclusive.com.br/?origem=ig-concierge#concierge'}};
+var OBJ={pas:'atrair quem quer comprar passagem aérea',b2b:'atrair empresas para viagens corporativas (B2B)',con:'atrair clientes para o concierge de viagens',pro:'organizar o perfil e o processo da conta'};
+var SAIDA={
+ 'Reel':['1) 3 opções de gancho para os 2 primeiros segundos (frase curta, que dê vontade de ver até o fim).','2) Roteiro cena a cena para 20 a 30 segundos: tempo, o que aparece na tela, texto na tela e voz em off.','3) O que eu preciso gravar ou mostrar, em lista simples para quem grava com o celular.','4) Legenda: a primeira linha repete o gancho, depois 2 linhas de contexto e a chamada para o link da bio.','5) Até 5 hashtags e 3 opções de texto para a capa.'],
+ 'Carrossel':['1) 3 opções de título para a capa.','2) Texto de cada slide (de 6 a 8 slides), com no máximo 25 palavras por slide e uma sugestão de imagem ou ícone.','3) Último slide com a chamada para o link da bio.','4) Legenda com a primeira linha forte, o contexto e a chamada.','5) Até 5 hashtags.'],
+ 'Perfil':['1) 3 opções de bio com até 150 caracteres.','2) Nome do perfil com palavra de busca (até 30 caracteres).','3) Texto curto e ideia de capa para cada destaque: Como funciona, Concierge, Empresas e Clientes.','4) Os 3 textos dos links da bio.','5) Um checklist de 5 itens para eu conferir antes de salvar.'],
+ 'Revisão':['1) Um relatório de 1 página com o que funcionou, o que não funcionou e o que repetir na próxima semana, usando só os números que eu informar acima.','2) Uma tabela de leads por tipo e por post, se eu colar os dados.','3) 5 ideias de posts para a próxima semana, cada uma com formato, objetivo (passagem, B2B ou concierge) e chamada.','4) Pergunte o que faltar antes de concluir.'],
+ 'Post + Stories':['1) Texto da arte principal (até 12 palavras) e legenda completa com chamada.','2) Sequência de 5 stories: o texto de cada um, a figurinha interativa sugerida (enquete, pergunta ou link) e em qual deles entra o link.','3) Até 5 hashtags.'],
+ 'Foto ou Reel':['1) Diga em 2 linhas qual formato funciona melhor com o material que eu tenho (foto ou Reel) e por quê.','2) Se for foto: texto da arte e legenda. Se for Reel: gancho, roteiro curto de até 30 segundos e legenda.','3) Um texto curto e educado para pedir autorização ao cliente pelo WhatsApp.','4) Até 5 hashtags.']
+};
+function fmtKey(f){if(f==='Reel')return 'Reel';if(f==='Carrossel')return 'Carrossel';if(f==='Perfil')return 'Perfil';if(f==='Revisão')return 'Revisão';if(f==='Post + Stories')return 'Post + Stories';return 'Foto ou Reel'}
+function findDay(id){var a=id.split('-'),w=WEEKS.filter(function(x){return x.n===+a[0]})[0];return {w:w,d:w.dias[+a[1]]}}
+function buildPrompt(id){
+  var x=findDay(id),d=x.d,k=fmtKey(d.f),L=LINK[d.o];
+  var t=['Você é um social media sênior de uma agência de viagens que vende experiências de alto padrão. Escreva em português do Brasil, com frases curtas, tom elegante, direto e acolhedor, sem jargão e sem exagero.','',
+  'CONTEXTO DA MARCA','Sky Exclusive (@skyexclusive_), agência em Curitiba. Vendemos passagens aéreas em Executiva e Primeira Classe (inclusive por milhas), concierge de viagens (viagem pronta de ponta a ponta) e viagens corporativas (B2B). Público: viajantes de alto padrão e gestores de empresas.','',
+  'OBJETIVO DO POST','Trazer cliente: '+OBJ[d.o]+'.'+(L?' O post deve levar ao link da bio "'+L.n+'" ('+L.u+').':''),'',
+  'TAREFA ('+x.w.datas+', '+d.d+')','Formato: '+d.f+'. Título: '+d.t,'',
+  'O QUE JÁ ESTÁ DEFINIDO NO PLANO','- '+d.s.join('\n- '),'Entrega esperada: '+d.e,'Chamada para ação: '+d.c,'',
+  'DADOS REAIS QUE EU TENHO',(extra[id]&&extra[id].trim()?extra[id].trim():'(nenhum informado ainda)'),'',
+  'REGRAS','- Não invente números, preços, datas, nomes de clientes nem depoimentos. Se faltar dado essencial, faça até 3 perguntas curtas antes de escrever.','- Nada de dado de cliente (nome, documento, e-mail, localizador).','- Preço sempre com data e a frase "sujeito a disponibilidade". Nunca prometer economia fixa ("sempre", "garantido").','- Uma única chamada para ação por post.','',
+  'O QUE QUERO NA RESPOSTA'].concat(SAIDA[k]).concat(['','Ao final, faça um checklist de revisão com: gancho forte nos 2 primeiros segundos ou na capa, uma prova clara, uma única chamada, sem dado de cliente e sem promessa irreal. Entregue tudo de uma vez, depois das perguntas, se houver.']);
+  return t.join('\n');
+}
+function panel(id){
+  return '<div class="pbox"><span class="mono">Dados reais que você tem (opcional)</span>'
+   +'<textarea aria-label="Dados reais para o prompt" data-ex="'+id+'" rows="3" placeholder="Ex.: trecho, datas, preço pago, milhas usadas, destino, o que o cliente autorizou">'+esc(extra[id]||'')+'</textarea>'
+   +'<span class="mono">Prompt pronto</span>'
+   +'<textarea aria-label="Prompt pronto" id="pt-'+id+'" readonly rows="10">'+esc(buildPrompt(id))+'</textarea>'
+   +'<div class="prow"><button class="copy" type="button" data-cp="'+id+'">Copiar prompt</button><span class="mono">Abrir:</span>'
+   +'<a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a><a href="https://claude.ai" target="_blank" rel="noopener">Claude</a><a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a></div></div>';
+}
 function render(){
   var W=WEEKS[cur];
   document.getElementById('wk').innerHTML=WEEKS.map(function(w,i){
@@ -337,7 +378,9 @@ function render(){
      +'<dl><div><dt>Passo a passo</dt><dd><ul>'+d.s.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></dd></div>'
      +'<div><dt>Entregar</dt><dd>'+esc(d.e)+' <span class="mono">Tempo: '+d.tempo+'</span></dd></div>'
      +'<div><dt>Chamada para ação</dt><dd>'+esc(d.c)+'</dd></div></dl>'
-     +'<label><input type="checkbox" data-id="'+id+'"'+(ok?' checked':'')+'> Feito</label></article>';
+     +'<div class="actions"><label><input type="checkbox" data-id="'+id+'"'+(ok?' checked':'')+'> Feito</label>'
+     +'<button type="button" class="pr" data-pr="'+id+'" aria-expanded="'+(openId===id)+'">Criar prompt</button></div>'
+     +(openId===id?panel(id):'')+'</article>';
   }).join('');
   var tot=Object.keys(done).filter(function(k){return done[k]}).length;
   document.getElementById('progtxt').textContent=tot+' de 23 tarefas feitas';
@@ -347,6 +390,19 @@ document.getElementById('wk').addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;cur=+b.getAttribute('data-i');render();});
 document.getElementById('days').addEventListener('change',function(e){
   var id=e.target.getAttribute('data-id');if(!id)return;done[id]=e.target.checked;put('skyjoao',done);render();});
+document.getElementById('days').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  var pr=b.getAttribute('data-pr'),cp=b.getAttribute('data-cp');
+  if(pr){openId=(openId===pr?null:pr);render();return}
+  if(cp){var ta=document.getElementById('pt-'+cp),orig=b.textContent;
+    function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent=orig},1800)}
+    function sel(){ta.focus();ta.select()}
+    try{navigator.clipboard.writeText(ta.value).then(ok,sel)}catch(err){sel()}}
+});
+document.getElementById('days').addEventListener('input',function(e){
+  var id=e.target.getAttribute('data-ex');if(!id)return;
+  extra[id]=e.target.value;var ta=document.getElementById('pt-'+id);if(ta)ta.value=buildPrompt(id);
+});
 document.getElementById('copytpl').addEventListener('click',function(){
   var b=this,t=document.getElementById('tpl');
   function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar modelo de pedido de revisão'},1800)}
