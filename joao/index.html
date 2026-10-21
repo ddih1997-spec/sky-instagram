@@ -88,7 +88,7 @@ button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 </header>
 
 <nav class="tabs" aria-label="Seções">
-  <a href="#metas">Escada de metas</a><a href="#base">Ponto de partida</a><a href="#semanas">Semanas e tarefas</a><a href="#regras">Regras dos posts</a><a href="#revisao">Fluxo de revisão</a><a href="#leads">Controle de leads</a><a href="#semestre">Próximos meses</a>
+  <a href="#metas">Escada de metas</a><a href="#base">Ponto de partida</a><a href="#semanas">Semanas e tarefas</a><a href="#regras">Regras dos posts</a><a href="#revisao">Fluxo de revisão</a><a href="#leads">Leads e links da bio</a><a href="#semestre">Próximos meses</a>
 </nav>
 
 <section id="metas">
@@ -157,7 +157,7 @@ button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
     <div class="box"><span class="mono">Estrutura</span><h3>Gancho, prova, CTA</h3>
       <ul><li>Gancho nos 2 primeiros segundos (Reel) ou na capa (carrossel)</li><li>Uma prova: número, tela, comparação</li><li>Uma única chamada para ação</li></ul></div>
     <div class="box"><span class="mono">Chamadas prontas</span><h3>Escolha uma por post</h3>
-      <ul><li>Passagem: "Chama a Sky no WhatsApp e a gente busca para você"</li><li>B2B: "Pede a cotação corporativa no WhatsApp"</li><li>Concierge: "Quer sua viagem pronta? Fala com o concierge"</li></ul></div>
+      <ul><li>Passagem: "Toque em Cotar passagem na bio e a gente busca para você"</li><li>B2B: "Toque em Para empresas na bio e peça a cotação corporativa"</li><li>Concierge: "Toque em Concierge na bio e deixe a viagem pronta com a gente"</li><li>Também vale "chama no WhatsApp" quando o post já for uma resposta a DM</li></ul></div>
     <div class="box"><span class="mono">Cuidados</span><h3>O que nunca pode ir ao ar</h3>
       <ul><li>Nome, documento, e-mail ou localizador de cliente</li><li>Preço sem data e sem "sujeito a disponibilidade"</li><li>Promessa de economia fixa ("sempre", "garantido")</li><li>Foto de cliente sem autorização por escrito (WhatsApp vale)</li></ul></div>
     <div class="box"><span class="mono">Padrão visual</span><h3>Reconhecer a Sky de longe</h3>
@@ -203,7 +203,17 @@ Dúvida específica: ______</pre>
     <tr><th>Data</th><th>Origem (qual post ou story)</th><th>Tipo</th><th>Status</th><th>Observação</th></tr>
     <tr><td>Exemplo</td><td>Reel "como funciona a busca"</td><td>Passagem / B2B / Concierge</td><td>Novo · Em cotação · Fechou · Perdeu</td><td>Sem dado sensível do cliente</td></tr>
   </table></div>
-  <div class="note">No link da bio, use uma mensagem pronta no WhatsApp: "Oi, vim pelo Instagram e quero [passagem / cotação para minha empresa / concierge]". Quando o cliente escrever isso, o João já sabe a origem. Toda sexta, ele soma por tipo e por post e leva ao Diego.</div>
+  <div class="note">Quando o cliente escrever "vim pelo Instagram" e o tipo (passagem, empresa ou concierge), o João já sabe a origem. Toda sexta, ele soma por tipo e por post e leva ao Diego.</div>
+  <h3 id="links">Os 3 links da bio</h3>
+  <p class="sub">Cada link leva o cliente direto à parte certa do site da Sky. A marca <code>?origem=</code> no fim do endereço é o que permite saber de onde a pessoa veio.</p>
+  <div class="scroll"><table>
+    <tr><th>Texto na bio</th><th>Endereço</th><th>Para quem</th><th>Posts que levam para cá</th></tr>
+    <tr><td><strong>Cotar passagem</strong></td><td><code>https://skyexclusive.com.br/?origem=ig-passagem</code></td><td>Quem quer comprar passagem (abre no formulário "Cote sua viagem")</td><td>Reels de busca, economia, mitos de milhas</td></tr>
+    <tr><td><strong>Concierge</strong></td><td><code>https://skyexclusive.com.br/?origem=ig-concierge#concierge</code></td><td>Quem quer a viagem pronta</td><td>Carrosséis e Reels de concierge, case de viagem entregue</td></tr>
+    <tr><td><strong>Para empresas</strong></td><td><code>https://skyexclusive.com.br/?origem=ig-empresas#empresas</code></td><td>Quem decide viagens da empresa</td><td>Todos os posts de B2B</td></tr>
+  </table></div>
+  <div class="note"><strong>Importante:</strong> hoje o site abre na seção certa, mas ainda <strong>não lê a marca nem muda a mensagem do WhatsApp</strong> e não tem contador de visitas. Isso será ajustado no site pela outra sessão. Até lá, o João usa os 3 links normalmente e, quando o cliente mandar mensagem, anota na planilha qual link ele usou.</div>
+  <p class="sub">Nos stories, use o adesivo de link com o mesmo endereço do tipo do post. Nos Reels e carrosséis, a chamada é sempre "link na bio" e o João diz qual dos 3 usar (ex.: "toque em Concierge na bio").</p>
 </section>
 
 <section id="semestre">
@@ -226,29 +236,29 @@ var WEEKS=[
 {n:0,datas:'21/10 a 23/10',tema:'Arranque: vitrine pronta e primeiros posts',meta:'Perfil pronto para converter e os 3 primeiros posts no ar até sexta.',mes:'Contribui para: criar a base do mês. Nesta semana de arranque a revisão é no mesmo dia: mande o material até as 12h do dia do post.',
  dias:[
  {d:'Quarta 21/10',o:'pro',f:'Perfil',t:'Arrumar a vitrine do perfil',tempo:'2h',
-  s:['Bio nova (sugestão: "Passagens em Executiva e Primeira | Concierge de viagem | Viagens corporativas. Cotação no WhatsApp ↓")','Nome do perfil com palavra de busca: "Sky Exclusive | Passagens e Concierge"','Link da bio apontando para o WhatsApp com mensagem pronta','Criar 4 destaques: Como funciona, Concierge, Empresas, Clientes (com capas no padrão da marca)','Criar a planilha de leads (modelo mais abaixo nesta página)'],
+  s:['Bio nova (sugestão: "Passagens em Executiva e Primeira | Concierge de viagem | Viagens corporativas. Cotação no WhatsApp ↓")','Nome do perfil com palavra de busca: "Sky Exclusive | Passagens e Concierge"','Colocar os 3 links na bio (Instagram aceita vários): Cotar passagem, Concierge e Para empresas, exatamente como estão na seção "Os 3 links da bio" mais abaixo','Criar 4 destaques: Como funciona, Concierge, Empresas, Clientes (com capas no padrão da marca)','Criar a planilha de leads (modelo mais abaixo nesta página)'],
   e:'Perfil atualizado e print de antes e depois no grupo.',c:'Não tem CTA de post; o objetivo é o perfil converter.'},
  {d:'Quinta 22/10',o:'pas',f:'Reel',t:'"Como funciona a nossa busca de passagem"',tempo:'3h',
   s:['Gravar a tela de uma busca real (sem nome nem dado de cliente), com 3 datas comparadas','Voz em off de 20 a 30s: "Eu busco por milhas e por dinheiro, comparo as datas e vejo o que compensa"','Texto grande na tela com o ganho encontrado','Capa com "Como a gente acha passagem mais barata"'],
-  e:'Reel de 20 a 30s no formato 9:16, enviado para revisão até as 12h e postado à tarde.',c:'"Quer que a gente busque a sua? Chama no WhatsApp."'},
+  e:'Reel de 20 a 30s no formato 9:16, enviado para revisão até as 12h e postado à tarde.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Sexta 23/10',o:'b2b',f:'Carrossel',t:'"5 motivos para sua empresa parar de comprar passagem no site"',tempo:'3h',
   s:['Slide 1 (capa): "Sua empresa compra passagem no site? Leia antes."','Slides 2 a 6: remarcação sem multa abusiva, uma pessoa cuidando de tudo, relatório de gastos, tarifa corporativa, atendimento humano','Slide final com a chamada e o WhatsApp','No fim do dia, anotar o alcance dos 3 primeiros posts e mandar ao Diego'],
-  e:'Carrossel de 7 slides em 1080x1350, enviado até as 12h.',c:'"Pede a cotação corporativa no WhatsApp."'}
+  e:'Carrossel de 7 slides em 1080x1350, enviado até as 12h.',c:'"Toque em Para empresas na bio e peça a cotação corporativa."'}
  ]},
 {n:1,datas:'26/10 a 30/10',tema:'Economia e prova',meta:'Mostrar economia real e responder as dúvidas que travam o cliente.',mes:'Contribui para: gerar as primeiras conversas e medir de onde vêm.',
  dias:[
  {d:'Segunda 26/10',o:'pas',f:'Reel',t:'"Passagem de R$ ___ por R$ ___" (economia real)',tempo:'3h',
   s:['Pedir ao Diego até sexta (23/10) uma emissão real que possa ser mostrada, com dados do cliente borrados','Mostrar a tela do preço de mercado e do valor final, com data e trecho','Se não houver caso aprovado: gravar "3 mitos de milhas" no lugar','Colocar "sujeito a disponibilidade" na legenda'],
-  e:'Reel pronto com a economia mostrada e aprovada pelo Diego, enviado até as 17h de domingo ou sexta.',c:'"Quer uma emissão assim? Fala com a Sky."'},
+  e:'Reel pronto com a economia mostrada e aprovada pelo Diego, enviado até as 17h de domingo ou sexta.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Terça 27/10',o:'pas',f:'Reel',t:'"As 5 perguntas que mais recebemos sobre passagem"',tempo:'3h',
   s:['Listar as 5 dúvidas reais que chegam por DM e WhatsApp','Responder cada uma em 5 segundos, com texto na tela','Fechar com "a próxima semana tem mais" para criar hábito'],
   e:'Reel de 30s com as 5 respostas.',c:'"Sua dúvida não está aqui? Pergunta no WhatsApp."'},
  {d:'Quarta 28/10',o:'pas',f:'Carrossel',t:'"Executiva por milhas: como funciona (e quem pode)"',tempo:'3h',
   s:['Explicar sem jargão: o que são milhas, de onde vêm, por que compensa','Um slide de "mitos": milhas vencem, só serve para quem viaja muito','Um slide de "quando não compensa" para ganhar confiança','Slide final com a chamada'],
-  e:'Carrossel de 8 slides.',c:'"Quer saber se compensa para você? Chama no WhatsApp."'},
+  e:'Carrossel de 8 slides.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Quinta 29/10',o:'pas',f:'Reel',t:'"3 erros que fazem você pagar mais caro na passagem"',tempo:'3h',
   s:['Erro 1: comprar em cima da hora','Erro 2: olhar uma data só','Erro 3: não comparar milhas e dinheiro','Gancho: "Eu já vi gente perder R$ 3.000 por isso"'],
-  e:'Reel de 30s.',c:'"Chama a Sky para não cair nisso."'},
+  e:'Reel de 30s.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Sexta 30/10',o:'pro',f:'Revisão',t:'Prova social, relatório e planejamento da semana 2',tempo:'2h',
   s:['Postar um depoimento ou foto de cliente com autorização por escrito','Somar os leads da semana na planilha (por tipo e por post)','Anotar alcance, salvamentos e visitas ao perfil de cada post da semana','Montar os 5 posts da semana 2 em rascunho'],
   e:'Mini relatório enviado ao Diego e rascunhos da semana 2 prontos.',c:'"Conta para a gente a sua viagem dos sonhos" (caixinha nos stories).'}
@@ -257,16 +267,16 @@ var WEEKS=[
  dias:[
  {d:'Segunda 02/11 (Finados)',o:'con',f:'Carrossel',t:'"O que é concierge de viagem (e o que a gente resolve)"',tempo:'3h',
   s:['Deixar pronto na sexta e agendar, pois é feriado','Slides: o que o cliente não precisa mais fazer (buscar voo, hotel, traslado, roteiro), como funciona do pedido ao embarque','Um slide mostrando "o que está incluso" com palavras simples','Slide final: "Fala com o nosso concierge"'],
-  e:'Carrossel agendado no Instagram para 12h.',c:'"Quer sua viagem pronta? Fala com o concierge."'},
+  e:'Carrossel agendado no Instagram para 12h.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Terça 03/11',o:'con',f:'Reel',t:'"Do pedido ao embarque: como o concierge monta sua viagem"',tempo:'3h',
   s:['Gravar a tela de um roteiro montado (com nomes trocados por exemplos)','Mostrar em 4 passos: conversa, proposta, reserva, acompanhamento','Voz em off de 25s','Capa: "Você só embarca"'],
-  e:'Reel de 25 a 30s.',c:'"Chama a Sky: a gente monta a sua."'},
+  e:'Reel de 25 a 30s.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Quarta 04/11',o:'con',f:'Carrossel',t:'"Concierge, agência ou montar sozinho: o que muda"',tempo:'3h',
   s:['Tabela simples com tempo gasto, risco de erro, preço, suporte durante a viagem','Tom honesto: dizer para quem cada opção serve','Slide final com o convite para o concierge'],
-  e:'Carrossel de 6 a 8 slides.',c:'"Quer um roteiro assim? Fala com o concierge."'},
+  e:'Carrossel de 6 a 8 slides.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Quinta 05/11',o:'con',f:'Reel',t:'"Concierge é só para quem tem muito dinheiro? A verdade"',tempo:'3h',
   s:['Gancho: "Todo mundo acha que concierge é caro. Será?"','Explicar para quem compensa: quem não tem tempo, quem viaja com família, quem não quer errar','Só falar de valores se o Diego aprovar antes','Mostrar o que o cliente deixa de gastar com erro e retrabalho'],
-  e:'Reel de 25 a 30s.',c:'"Quer saber se o concierge serve para você? Fala com a gente."'},
+  e:'Reel de 25 a 30s.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Sexta 06/11',o:'pro',f:'Revisão',t:'Stories de perguntas, relatório e planejamento da semana 3',tempo:'2h',
   s:['Stories com caixinha: "Qual a sua viagem dos sonhos?" e responder 5 em vídeo','Somar os leads e comparar com a semana 1','Anotar qual post gerou mais conversa','Montar os rascunhos da semana 3'],
   e:'Relatório da semana 2 e rascunhos da semana 3.',c:'"Qual a sua próxima viagem? Responde aqui."'}
@@ -275,16 +285,16 @@ var WEEKS=[
  dias:[
  {d:'Segunda 09/11',o:'b2b',f:'Carrossel',t:'"Quanto sua empresa gasta com viagem? Faça a conta"',tempo:'3h',
   s:['Passo a passo para somar gasto anual de viagem','Exemplo com números fictícios identificados como exemplo','Mostrar onde costuma haver desperdício (tarifa cheia, remarcação, multa)','Slide final: "Quer que a gente analise a sua empresa?"'],
-  e:'Carrossel de 7 slides.',c:'"Pede a análise corporativa no WhatsApp."'},
+  e:'Carrossel de 7 slides.',c:'"Toque em Para empresas na bio e peça a cotação corporativa."'},
  {d:'Terça 10/11',o:'b2b',f:'Reel',t:'"Passagem corporativa: o que o site não te dá"',tempo:'3h',
   s:['3 situações reais: remarcar de última hora, bagagem, um atendente que conhece a empresa','Texto na tela em cada situação','Gancho: "Seu funcionário perdeu o voo. E agora?"'],
-  e:'Reel de 25s.',c:'"Cotação corporativa pelo WhatsApp."'},
+  e:'Reel de 25s.',c:'"Toque em Para empresas na bio e peça a cotação corporativa."'},
  {d:'Quarta 11/11',o:'pas',f:'Reel',t:'"Site vs Sky: o mesmo trecho em 3 datas"',tempo:'3h',
   s:['Gravar a tela comparando o preço no site e o resultado da busca da Sky','Usar um trecho comum (ex.: São Paulo a Lisboa) e mostrar as datas','Fechar com "datas flexíveis mudam tudo"','Colocar "valores sujeitos a variação" na legenda'],
-  e:'Reel de 30s com comparação clara.',c:'"Quer essa comparação para a sua viagem? Chama no WhatsApp."'},
+  e:'Reel de 30s com comparação clara.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Quinta 12/11',o:'pas',f:'Carrossel',t:'"O que a gente precisa para cotar a sua passagem"',tempo:'3h',
   s:['Slide 2 a 6: origem e destino, datas e flexibilidade, quantidade de passageiros, classe, se tem milhas próprias','Slide final: "Manda esses 5 dados e a gente busca"','Capa: "5 informações e a gente acha sua passagem"'],
-  e:'Carrossel de 7 slides.',c:'"Manda os 5 dados no WhatsApp e a gente busca."'},
+  e:'Carrossel de 7 slides.',c:'"Toque em Cotar passagem na bio e mande os 5 dados."'},
  {d:'Sexta 13/11',o:'pro',f:'Revisão',t:'Enquete para empresas, relatório e planejamento da semana 4',tempo:'2h',
   s:['Stories: "Sua empresa viaja quantas vezes por mês?" com enquete','Responder quem votar mais de 3 vezes com uma mensagem de cotação','Somar leads por tipo (passagem, B2B, concierge)','Escolher os 2 melhores posts do mês até agora para reaproveitar'],
   e:'Relatório da semana 3 e rascunhos da semana 4.',c:'"Sua empresa viaja? Vota aqui."'}
@@ -293,16 +303,16 @@ var WEEKS=[
  dias:[
  {d:'Segunda 16/11',o:'pas',f:'Reel',t:'Reaproveitar o melhor vídeo da viagem do Oliveira com explicação',tempo:'3h',
   s:['Pegar com o editor do Oliveira um clipe de preço ou emissão','Colocar uma explicação sua em texto: "como a gente emitiu isso"','Citar a série no texto: "Dia X de 30"'],
-  e:'Reel de 25s ligado à viagem.',c:'"Quer emitir igual? Fala com a Sky."'},
+  e:'Reel de 25s ligado à viagem.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Terça 17/11',o:'pas',f:'Carrossel',t:'"Checklist antes de comprar passagem internacional"',tempo:'3h',
   s:['Passaporte, visto, seguro, bagagem, conexões, horários','Um slide com "o erro que mais custa caro" (informações sempre confirmadas em fonte oficial)','Slide final com a oferta de revisar o plano de viagem'],
-  e:'Carrossel de 7 slides.',c:'"Quer que a gente revise a sua viagem? Chama no WhatsApp."'},
+  e:'Carrossel de 7 slides.',c:'"Toque em Cotar passagem na bio e a gente busca para você."'},
  {d:'Quarta 18/11',o:'con',f:'Foto ou Reel',t:'"Viagem entregue": um case do concierge (com autorização)',tempo:'3h',
   s:['Pedir autorização por escrito ao cliente (WhatsApp vale)','Usar fotos ou vídeos reais da viagem, sem documentos à mostra','Contar em 3 linhas o que o concierge resolveu','Se possível, incluir uma frase do cliente'],
-  e:'Post ou Reel pronto com a autorização guardada.',c:'"Quer uma viagem assim? Fala com o concierge."'},
+  e:'Post ou Reel pronto com a autorização guardada.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Quinta 19/11',o:'con',f:'Post + Stories',t:'Oferta clara de concierge para o fim de ano',tempo:'3h',
   s:['Foto ou arte única com o que o concierge entrega para as viagens de fim de ano','Só usar escassez se for real (agenda limitada de atendimentos)','Sequência de 5 stories: o problema, a solução, como funciona, prova, link'],
-  e:'Post fixado e sequência de stories.',c:'"Reserve a sua vaga com o concierge."'},
+  e:'Post fixado e sequência de stories.',c:'"Toque em Concierge na bio e deixe a viagem pronta com a gente."'},
  {d:'Sexta 20/11',o:'pro',f:'Revisão',t:'Balanço do mês e plano do mês 2',tempo:'3h',
   s:['Comparar as métricas com o ponto de partida','Listar os 3 posts que mais geraram lead e os 3 que menos','Somar quantos leads de cada tipo chegaram','Montar o mês 2 com o Diego e o Claude'],
   e:'Relatório mensal de 1 página.',c:'Não há CTA de post; o objetivo é aprender.'}
