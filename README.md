@@ -1,7 +1,8 @@
-# Sky Instagram · Plano de 30 dias
+# Sky Instagram
 
-Plano de conteúdo para o Instagram da Sky durante a viagem do Oliveira
-(África, Ilhas Maurício, Abu Dhabi, Singapura e Tailândia).
+- Plano do João Vitor (conteúdo em casa): `joao/index.html`
+- Plano do Oliveira (viagem de 30 dias): `oliveira/index.html`
 
-Abra `index.html` no navegador para ver o calendário dos 30 dias, o roteiro
-padrão dos Reels, as ideias virais, a operação e as métricas.
+Páginas publicadas:
+- https://ddih1997-spec.github.io/sky-instagram/joao/
+- https://ddih1997-spec.github.io/sky-instagram/oliveira/

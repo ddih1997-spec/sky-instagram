@@ -1,0 +1,356 @@
+<title>Sky Plano João</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: escada de metas no topo (semestre > mês > semana > dia), depois uma semana por vez com cartões de tarefa por dia útil */
+:root{
+  --bg:#F1F4F7; --surface:#FFFFFF; --ink:#0C1B2B; --muted:#55657A; --line:#D6DDE5;
+  --accent:#1B55F0; --accent-ink:#FFFFFF; --pop:#FFC93C;
+  --pas:#1B55F0; --b2b:#0E9E7A; --con:#D2691E; --pro:#7A4FD6;
+  --f-display:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#08111C; --surface:#101D2E; --ink:#EAF0F7; --muted:#93A4B8; --line:#233449;
+  --accent:#6C93FF; --accent-ink:#06122B; --pas:#6C93FF; --b2b:#3FD3AB; --con:#F29A55; --pro:#B39BFF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08111C; --surface:#101D2E; --ink:#EAF0F7; --muted:#93A4B8; --line:#233449;
+  --accent:#6C93FF; --accent-ink:#06122B; --pas:#6C93FF; --b2b:#3FD3AB; --con:#F29A55; --pro:#B39BFF; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-body);
+  padding-block:0 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+h1{font-size:clamp(2.1rem,5.5vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);font-weight:800}
+h3{font-size:1.08rem;font-weight:800}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header.hero{padding:44px 0 24px;display:grid;gap:16px}
+.lead{font-size:1.1rem;color:var(--muted);max-width:66ch}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:26px}
+nav.tabs a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 14px;border-radius:8px;font-weight:600;font-size:.9rem}
+nav.tabs a:hover,nav.tabs a:focus-visible{background:var(--surface);outline:2px solid var(--accent)}
+section{padding:34px 0;display:grid;gap:18px;scroll-margin-top:64px}
+.sub{color:var(--muted);max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:8px;align-content:start;min-width:0}
+.box ul,.box ol{margin:0;padding-left:1.15rem;display:grid;gap:4px}
+.note{border-left:4px solid var(--pop);background:var(--surface);padding:14px 16px;border-radius:0 10px 10px 0;max-width:74ch}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* escada de metas */
+.ladder{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.step{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+.step:last-child{border-bottom:0}
+.step .lv{font-family:var(--f-display);font-weight:800;font-size:1.05rem}
+.step:nth-child(1){background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.step:nth-child(2){padding-left:34px}
+.step:nth-child(3){padding-left:50px}
+.step:nth-child(4){padding-left:66px}
+@media(max-width:640px){.step{grid-template-columns:1fr;gap:4px}.step:nth-child(n){padding-left:18px}}
+/* semana */
+.wk{display:flex;flex-wrap:wrap;gap:8px}
+.wk button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 14px;border-radius:10px;cursor:pointer;text-align:left}
+.wk button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wk button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wkhead{display:grid;gap:10px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.day{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:10px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.day.done{opacity:.55}
+.day .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+.day h3{font-size:1.02rem}
+.day dl{margin:0;display:grid;gap:8px;font-size:.9rem}
+.day dt{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.day dd{margin:0}
+.day dd ul{margin:2px 0 0;padding-left:1.1rem;display:grid;gap:2px}
+.day label{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted);cursor:pointer}
+.day input{width:18px;height:18px;accent-color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.85rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:420px}
+.prog i{display:block;height:100%;background:var(--accent);width:0}
+pre.tpl{margin:0;white-space:pre-wrap;font-family:var(--f-mono);font-size:.82rem;line-height:1.6;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+button.copy{font:inherit;font-size:.82rem;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;padding:8px 12px;border-radius:8px;cursor:pointer;justify-self:start}
+button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="mono">Instagram da Sky · Plano do João Vitor</span>
+  <h1>Do objetivo do semestre à tarefa de hoje.</h1>
+  <p class="lead">Este plano diz ao João o que postar em cada dia útil, em qual formato e para quê. Todo post existe para trazer um cliente: passagem aérea, empresa (B2B) ou concierge. Visualização boa é consequência, não meta.</p>
+  <p class="note"><strong>Enquanto o Oliveira viaja,</strong> o João cuida do conteúdo "em casa": como funciona a busca, a economia, o concierge e o B2B. O Oliveira cuida da série de viagem (plano separado). Os dois conteúdos se complementam: a série atrai gente nova, o conteúdo do João explica o serviço e leva para o WhatsApp.</p>
+</header>
+
+<nav class="tabs" aria-label="Seções">
+  <a href="#metas">Escada de metas</a><a href="#base">Ponto de partida</a><a href="#semanas">Semanas e tarefas</a><a href="#regras">Regras dos posts</a><a href="#revisao">Fluxo de revisão</a><a href="#leads">Controle de leads</a><a href="#semestre">Próximos meses</a>
+</nav>
+
+<section id="metas">
+  <h2>A escada de metas</h2>
+  <p class="sub">Cada degrau existe para o de cima. Se a tarefa do dia não ajuda a meta da semana, ela não entra.</p>
+  <div class="ladder">
+    <div class="step"><span class="lv">Semestre<br><span class="mono">nov/26 a abr/27</span></span>
+      <p><strong>O Instagram vira um canal que traz clientes todo mês:</strong> pedidos de passagem, empresas (B2B) e, principalmente, clientes de concierge. Ao fim do semestre, o perfil gera conversas no WhatsApp de forma previsível e a Sky sabe quanto cada tipo de post rende.</p></div>
+    <div class="step"><span class="lv">Mês 1<br><span class="mono">21/10 a 20/11</span></span>
+      <p><strong>Arrumar a vitrine, criar o ritmo e medir.</strong> Perfil pronto para converter, 10 Reels e 7 carrosséis de conteúdo de serviço no ar, e o controle de leads funcionando para descobrir o que traz cliente de verdade.</p></div>
+    <div class="step"><span class="lv">Semana<br><span class="mono">uma por vez</span></span>
+      <p><strong>Cada semana tem um tema e uma meta</strong>: arranque (21 a 23/10) vitrine e busca, S1 economia e prova, S2 concierge, S3 B2B e cotação, S4 conversão e balanço.</p></div>
+    <div class="step"><span class="lv">Dia<br><span class="mono">seg a sex</span></span>
+      <p><strong>Uma tarefa principal por dia útil</strong>, com formato, passo a passo, chamada para ação e o que entregar. Stories diários rodam em paralelo.</p></div>
+  </div>
+</section>
+
+<section id="base">
+  <h2>Ponto de partida (últimos 30 dias)</h2>
+  <p class="sub">Dados lidos nos Insights da conta em 20/10/2026. Servem de comparação e as metas abaixo partem deles.</p>
+  <div class="scroll"><table>
+    <tr><th>Métrica</th><th>Hoje</th><th>Meta sugerida para o mês 1</th></tr>
+    <tr><td>Visualizações</td><td>83.758</td><td>150 mil ou mais</td></tr>
+    <tr><td>Contas alcançadas</td><td>12.976</td><td>25 mil ou mais</td></tr>
+    <tr><td>Visitas ao perfil</td><td>698</td><td>1.500 ou mais</td></tr>
+    <tr><td>Interações</td><td>2.489</td><td>5 mil ou mais</td></tr>
+    <tr><td>Reels publicados</td><td>2 em 50 posts</td><td>10 no mês</td></tr>
+    <tr><td>Conversas no WhatsApp vindas do Instagram</td><td>Ainda não medido</td><td>Começar a registrar todas na semana 1</td></tr>
+  </table></div>
+  <div class="note">As metas acima são sugestões minhas, não promessas. Depois da semana 2, o Diego ajusta com o que o perfil realmente entregar. A única meta que precisa existir desde o primeiro dia é <strong>registrar cada conversa que chega pelo Instagram</strong>, porque é ela que mostra o que traz dinheiro.</div>
+  <div class="grid">
+    <div class="box"><span class="mono">O que funcionou</span><p>O Reel "POV: e você preocupado com o tamanho da sua mala" fez 14,1 mil visualizações e rendeu cerca de 675 interações em um dia. Os carrosséis de "Destino do dia" ficaram em 21 a 36 interações cada.</p></div>
+    <div class="box"><span class="mono">O que corrigir</span><p>73,4% das visualizações vêm de quem não segue a Sky, mas só 698 pessoas visitaram o perfil. A bio está cortada e só existe um destaque. Quem chega não encontra o caminho para pedir cotação.</p></div>
+  </div>
+</section>
+
+<section id="semanas">
+  <h2>Semanas e tarefas do dia</h2>
+  <p class="sub">Comece pelo arranque (quarta 21/10). Marque cada tarefa como feita; o progresso fica salvo só neste navegador. Para o Diego acompanhar, use o botão de copiar resumo.</p>
+  <div class="legend" aria-label="Legenda de objetivos">
+    <span><i style="background:var(--pas)"></i>Passagem aérea</span>
+    <span><i style="background:var(--b2b)"></i>B2B (empresas)</span>
+    <span><i style="background:var(--con)"></i>Concierge</span>
+    <span><i style="background:var(--pro)"></i>Perfil e processo</span>
+  </div>
+  <div class="wk" id="wk" role="group" aria-label="Semanas"></div>
+  <div class="wkhead" id="wkhead"></div>
+  <div><button class="copy" type="button" id="copyres">Copiar resumo do que já foi feito</button></div>
+  <div><span class="mono" id="progtxt">0 de 23 tarefas feitas</span><div class="prog" aria-hidden="true"><i id="progbar"></i></div></div>
+  <div class="days" id="days"></div>
+  <div class="box">
+    <span class="mono">Todos os dias, em paralelo</span>
+    <h3>Stories: 3 por dia</h3>
+    <ul>
+      <li><strong>Bastidor:</strong> tela de uma busca, uma emissão, um atendimento (sem dados de cliente).</li>
+      <li><strong>Interação:</strong> enquete, caixinha de perguntas ou "qual você escolhe?".</li>
+      <li><strong>Chamada:</strong> um story só com o CTA do dia e o link para o WhatsApp.</li>
+      <li>Todo post do feed do dia também vai para o story, com o botão de compartilhar.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="regras">
+  <h2>Regras para todo post</h2>
+  <div class="grid">
+    <div class="box"><span class="mono">Estrutura</span><h3>Gancho, prova, CTA</h3>
+      <ul><li>Gancho nos 2 primeiros segundos (Reel) ou na capa (carrossel)</li><li>Uma prova: número, tela, comparação</li><li>Uma única chamada para ação</li></ul></div>
+    <div class="box"><span class="mono">Chamadas prontas</span><h3>Escolha uma por post</h3>
+      <ul><li>Passagem: "Chama a Sky no WhatsApp e a gente busca para você"</li><li>B2B: "Pede a cotação corporativa no WhatsApp"</li><li>Concierge: "Quer sua viagem pronta? Fala com o concierge"</li></ul></div>
+    <div class="box"><span class="mono">Cuidados</span><h3>O que nunca pode ir ao ar</h3>
+      <ul><li>Nome, documento, e-mail ou localizador de cliente</li><li>Preço sem data e sem "sujeito a disponibilidade"</li><li>Promessa de economia fixa ("sempre", "garantido")</li><li>Foto de cliente sem autorização por escrito (WhatsApp vale)</li></ul></div>
+    <div class="box"><span class="mono">Padrão visual</span><h3>Reconhecer a Sky de longe</h3>
+      <ul><li>Mesmas cores e fonte nas capas</li><li>Logo no canto, sempre no mesmo lugar</li><li>Texto grande: legível no celular sem som</li></ul></div>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>Formato</th><th>Quando usar</th><th>Quantos por semana</th></tr>
+    <tr><td><strong>Reel</strong></td><td>Mostrar tela, bastidor, comparação de preço, mito rápido. É o que alcança gente nova.</td><td>3</td></tr>
+    <tr><td><strong>Carrossel</strong></td><td>Explicar, comparar, listar. É o que as pessoas salvam e mandam para o sócio ou o marido.</td><td>2</td></tr>
+    <tr><td><strong>Foto única</strong></td><td>Prova social com autorização, aviso importante.</td><td>0 a 1</td></tr>
+    <tr><td><strong>Stories</strong></td><td>Relacionamento e lembrete de CTA. É onde a conversa vira DM.</td><td>3 por dia</td></tr>
+  </table></div>
+</section>
+
+<section id="revisao">
+  <h2>Fluxo de revisão antes de postar</h2>
+  <p class="sub">Nenhum post sai sem passar por esta ordem. Assim o João aprende o padrão rápido e o erro não vai ao ar.</p>
+  <div class="grid">
+    <div class="box"><span class="mono">Passo a passo</span>
+      <ol><li>João termina o post até <strong>as 17h do dia anterior</strong>.</li><li>Manda no grupo: arte final ou vídeo, legenda e a pergunta "qual objetivo: passagem, B2B ou concierge?".</li><li>Diego envia o material para o Claude avaliar.</li><li>Claude devolve nota, o que está bom e o que mudar.</li><li>João ajusta e posta no horário combinado.</li></ol></div>
+    <div class="box"><span class="mono">O que o Claude confere (nota de 1 a 5)</span>
+      <ul><li>Gancho forte nos 2 primeiros segundos</li><li>Uma prova clara (número, tela, comparação)</li><li>Uma única chamada para ação</li><li>Objetivo de cliente claro</li><li>Legenda: primeira linha, CTA e no máximo 5 hashtags</li><li>Sem dado de cliente, sem promessa irreal</li><li>Capa legível e dentro do padrão visual</li></ul></div>
+    <div class="box"><span class="mono">Regra de ouro</span><p>Na semana de arranque (21 a 23/10) a revisão é no mesmo dia: material até as 12h. Post com nota abaixo de 4 volta para ajuste. Post com nota 4 ou 5 sai no horário. Nas duas primeiras semanas todo post passa pela revisão; depois, só os de B2B e concierge.</p></div>
+  </div>
+  <pre class="tpl" id="tpl">PEDIDO DE REVISÃO
+
+Data do post: __/__
+Formato: Reel / Carrossel / Foto / Story
+Objetivo: Passagem / B2B / Concierge
+Gancho (primeira frase ou capa): ______
+Qual prova aparece (número, tela, comparação): ______
+Chamada para ação: ______
+Legenda:
+______
+Dúvida específica: ______</pre>
+  <button class="copy" type="button" id="copytpl">Copiar modelo de pedido de revisão</button>
+</section>
+
+<section id="leads">
+  <h2>Controle de leads: a planilha que decide tudo</h2>
+  <p class="sub">Sem isso, ninguém sabe qual post trouxe cliente. O João preenche todo dia, em 5 minutos, com as conversas que chegaram por DM e WhatsApp.</p>
+  <div class="scroll"><table>
+    <tr><th>Data</th><th>Origem (qual post ou story)</th><th>Tipo</th><th>Status</th><th>Observação</th></tr>
+    <tr><td>Exemplo</td><td>Reel "como funciona a busca"</td><td>Passagem / B2B / Concierge</td><td>Novo · Em cotação · Fechou · Perdeu</td><td>Sem dado sensível do cliente</td></tr>
+  </table></div>
+  <div class="note">No link da bio, use uma mensagem pronta no WhatsApp: "Oi, vim pelo Instagram e quero [passagem / cotação para minha empresa / concierge]". Quando o cliente escrever isso, o João já sabe a origem. Toda sexta, ele soma por tipo e por post e leva ao Diego.</div>
+</section>
+
+<section id="semestre">
+  <h2>Próximos meses (visão do semestre)</h2>
+  <p class="sub">Roteiro geral. O detalhe de cada mês será montado no fim do anterior, com o que o mês 1 ensinar.</p>
+  <div class="scroll"><table>
+    <tr><th>Mês</th><th>Foco</th><th>Resultado esperado</th></tr>
+    <tr><td><strong>Mês 1 · nov</strong></td><td>Vitrine, ritmo, medição</td><td>10 Reels, 7 carrosséis, controle de leads rodando</td></tr>
+    <tr><td><strong>Mês 2 · dez</strong></td><td>Repetir o que mais trouxe lead; campanha de fim de ano e férias</td><td>Primeiros números de lead por tipo de post</td></tr>
+    <tr><td><strong>Mês 3 · jan</strong></td><td>Alta temporada: concierge para férias e viagens internacionais</td><td>Concierge como principal porta de entrada</td></tr>
+    <tr><td><strong>Mês 4 · fev</strong></td><td>Carnaval e planejamento anual das empresas (B2B)</td><td>Pedidos de cotação corporativa recorrentes</td></tr>
+    <tr><td><strong>Mês 5 · mar</strong></td><td>Feriados prolongados e viagens de meio de ano</td><td>Calendário fixo de campanhas</td></tr>
+    <tr><td><strong>Mês 6 · abr</strong></td><td>Balanço do semestre e plano do próximo</td><td>Relatório: o que gerou cliente, o que cortar, o que ampliar</td></tr>
+  </table></div>
+</section>
+</div>
+
+<script>
+var WEEKS=[
+{n:0,datas:'21/10 a 23/10',tema:'Arranque: vitrine pronta e primeiros posts',meta:'Perfil pronto para converter e os 3 primeiros posts no ar até sexta.',mes:'Contribui para: criar a base do mês. Nesta semana de arranque a revisão é no mesmo dia: mande o material até as 12h do dia do post.',
+ dias:[
+ {d:'Quarta 21/10',o:'pro',f:'Perfil',t:'Arrumar a vitrine do perfil',tempo:'2h',
+  s:['Bio nova (sugestão: "Passagens em Executiva e Primeira | Concierge de viagem | Viagens corporativas. Cotação no WhatsApp ↓")','Nome do perfil com palavra de busca: "Sky Exclusive | Passagens e Concierge"','Link da bio apontando para o WhatsApp com mensagem pronta','Criar 4 destaques: Como funciona, Concierge, Empresas, Clientes (com capas no padrão da marca)','Criar a planilha de leads (modelo mais abaixo nesta página)'],
+  e:'Perfil atualizado e print de antes e depois no grupo.',c:'Não tem CTA de post; o objetivo é o perfil converter.'},
+ {d:'Quinta 22/10',o:'pas',f:'Reel',t:'"Como funciona a nossa busca de passagem"',tempo:'3h',
+  s:['Gravar a tela de uma busca real (sem nome nem dado de cliente), com 3 datas comparadas','Voz em off de 20 a 30s: "Eu busco por milhas e por dinheiro, comparo as datas e vejo o que compensa"','Texto grande na tela com o ganho encontrado','Capa com "Como a gente acha passagem mais barata"'],
+  e:'Reel de 20 a 30s no formato 9:16, enviado para revisão até as 12h e postado à tarde.',c:'"Quer que a gente busque a sua? Chama no WhatsApp."'},
+ {d:'Sexta 23/10',o:'b2b',f:'Carrossel',t:'"5 motivos para sua empresa parar de comprar passagem no site"',tempo:'3h',
+  s:['Slide 1 (capa): "Sua empresa compra passagem no site? Leia antes."','Slides 2 a 6: remarcação sem multa abusiva, uma pessoa cuidando de tudo, relatório de gastos, tarifa corporativa, atendimento humano','Slide final com a chamada e o WhatsApp','No fim do dia, anotar o alcance dos 3 primeiros posts e mandar ao Diego'],
+  e:'Carrossel de 7 slides em 1080x1350, enviado até as 12h.',c:'"Pede a cotação corporativa no WhatsApp."'}
+ ]},
+{n:1,datas:'26/10 a 30/10',tema:'Economia e prova',meta:'Mostrar economia real e responder as dúvidas que travam o cliente.',mes:'Contribui para: gerar as primeiras conversas e medir de onde vêm.',
+ dias:[
+ {d:'Segunda 26/10',o:'pas',f:'Reel',t:'"Passagem de R$ ___ por R$ ___" (economia real)',tempo:'3h',
+  s:['Pedir ao Diego até sexta (23/10) uma emissão real que possa ser mostrada, com dados do cliente borrados','Mostrar a tela do preço de mercado e do valor final, com data e trecho','Se não houver caso aprovado: gravar "3 mitos de milhas" no lugar','Colocar "sujeito a disponibilidade" na legenda'],
+  e:'Reel pronto com a economia mostrada e aprovada pelo Diego, enviado até as 17h de domingo ou sexta.',c:'"Quer uma emissão assim? Fala com a Sky."'},
+ {d:'Terça 27/10',o:'pas',f:'Reel',t:'"As 5 perguntas que mais recebemos sobre passagem"',tempo:'3h',
+  s:['Listar as 5 dúvidas reais que chegam por DM e WhatsApp','Responder cada uma em 5 segundos, com texto na tela','Fechar com "a próxima semana tem mais" para criar hábito'],
+  e:'Reel de 30s com as 5 respostas.',c:'"Sua dúvida não está aqui? Pergunta no WhatsApp."'},
+ {d:'Quarta 28/10',o:'pas',f:'Carrossel',t:'"Executiva por milhas: como funciona (e quem pode)"',tempo:'3h',
+  s:['Explicar sem jargão: o que são milhas, de onde vêm, por que compensa','Um slide de "mitos": milhas vencem, só serve para quem viaja muito','Um slide de "quando não compensa" para ganhar confiança','Slide final com a chamada'],
+  e:'Carrossel de 8 slides.',c:'"Quer saber se compensa para você? Chama no WhatsApp."'},
+ {d:'Quinta 29/10',o:'pas',f:'Reel',t:'"3 erros que fazem você pagar mais caro na passagem"',tempo:'3h',
+  s:['Erro 1: comprar em cima da hora','Erro 2: olhar uma data só','Erro 3: não comparar milhas e dinheiro','Gancho: "Eu já vi gente perder R$ 3.000 por isso"'],
+  e:'Reel de 30s.',c:'"Chama a Sky para não cair nisso."'},
+ {d:'Sexta 30/10',o:'pro',f:'Revisão',t:'Prova social, relatório e planejamento da semana 2',tempo:'2h',
+  s:['Postar um depoimento ou foto de cliente com autorização por escrito','Somar os leads da semana na planilha (por tipo e por post)','Anotar alcance, salvamentos e visitas ao perfil de cada post da semana','Montar os 5 posts da semana 2 em rascunho'],
+  e:'Mini relatório enviado ao Diego e rascunhos da semana 2 prontos.',c:'"Conta para a gente a sua viagem dos sonhos" (caixinha nos stories).'}
+ ]},
+{n:2,datas:'02/11 a 06/11',tema:'Concierge como produto',meta:'Apresentar o concierge de forma clara e gerar as primeiras conversas.',mes:'Contribui para: tornar o concierge a principal porta de entrada do mês.',
+ dias:[
+ {d:'Segunda 02/11 (Finados)',o:'con',f:'Carrossel',t:'"O que é concierge de viagem (e o que a gente resolve)"',tempo:'3h',
+  s:['Deixar pronto na sexta e agendar, pois é feriado','Slides: o que o cliente não precisa mais fazer (buscar voo, hotel, traslado, roteiro), como funciona do pedido ao embarque','Um slide mostrando "o que está incluso" com palavras simples','Slide final: "Fala com o nosso concierge"'],
+  e:'Carrossel agendado no Instagram para 12h.',c:'"Quer sua viagem pronta? Fala com o concierge."'},
+ {d:'Terça 03/11',o:'con',f:'Reel',t:'"Do pedido ao embarque: como o concierge monta sua viagem"',tempo:'3h',
+  s:['Gravar a tela de um roteiro montado (com nomes trocados por exemplos)','Mostrar em 4 passos: conversa, proposta, reserva, acompanhamento','Voz em off de 25s','Capa: "Você só embarca"'],
+  e:'Reel de 25 a 30s.',c:'"Chama a Sky: a gente monta a sua."'},
+ {d:'Quarta 04/11',o:'con',f:'Carrossel',t:'"Concierge, agência ou montar sozinho: o que muda"',tempo:'3h',
+  s:['Tabela simples com tempo gasto, risco de erro, preço, suporte durante a viagem','Tom honesto: dizer para quem cada opção serve','Slide final com o convite para o concierge'],
+  e:'Carrossel de 6 a 8 slides.',c:'"Quer um roteiro assim? Fala com o concierge."'},
+ {d:'Quinta 05/11',o:'con',f:'Reel',t:'"Concierge é só para quem tem muito dinheiro? A verdade"',tempo:'3h',
+  s:['Gancho: "Todo mundo acha que concierge é caro. Será?"','Explicar para quem compensa: quem não tem tempo, quem viaja com família, quem não quer errar','Só falar de valores se o Diego aprovar antes','Mostrar o que o cliente deixa de gastar com erro e retrabalho'],
+  e:'Reel de 25 a 30s.',c:'"Quer saber se o concierge serve para você? Fala com a gente."'},
+ {d:'Sexta 06/11',o:'pro',f:'Revisão',t:'Stories de perguntas, relatório e planejamento da semana 3',tempo:'2h',
+  s:['Stories com caixinha: "Qual a sua viagem dos sonhos?" e responder 5 em vídeo','Somar os leads e comparar com a semana 1','Anotar qual post gerou mais conversa','Montar os rascunhos da semana 3'],
+  e:'Relatório da semana 2 e rascunhos da semana 3.',c:'"Qual a sua próxima viagem? Responde aqui."'}
+ ]},
+{n:3,datas:'09/11 a 13/11',tema:'B2B e economia',meta:'Gerar os primeiros pedidos de cotação corporativa e mostrar a economia nas emissões.',mes:'Contribui para: abrir o canal de empresas (B2B).',
+ dias:[
+ {d:'Segunda 09/11',o:'b2b',f:'Carrossel',t:'"Quanto sua empresa gasta com viagem? Faça a conta"',tempo:'3h',
+  s:['Passo a passo para somar gasto anual de viagem','Exemplo com números fictícios identificados como exemplo','Mostrar onde costuma haver desperdício (tarifa cheia, remarcação, multa)','Slide final: "Quer que a gente analise a sua empresa?"'],
+  e:'Carrossel de 7 slides.',c:'"Pede a análise corporativa no WhatsApp."'},
+ {d:'Terça 10/11',o:'b2b',f:'Reel',t:'"Passagem corporativa: o que o site não te dá"',tempo:'3h',
+  s:['3 situações reais: remarcar de última hora, bagagem, um atendente que conhece a empresa','Texto na tela em cada situação','Gancho: "Seu funcionário perdeu o voo. E agora?"'],
+  e:'Reel de 25s.',c:'"Cotação corporativa pelo WhatsApp."'},
+ {d:'Quarta 11/11',o:'pas',f:'Reel',t:'"Site vs Sky: o mesmo trecho em 3 datas"',tempo:'3h',
+  s:['Gravar a tela comparando o preço no site e o resultado da busca da Sky','Usar um trecho comum (ex.: São Paulo a Lisboa) e mostrar as datas','Fechar com "datas flexíveis mudam tudo"','Colocar "valores sujeitos a variação" na legenda'],
+  e:'Reel de 30s com comparação clara.',c:'"Quer essa comparação para a sua viagem? Chama no WhatsApp."'},
+ {d:'Quinta 12/11',o:'pas',f:'Carrossel',t:'"O que a gente precisa para cotar a sua passagem"',tempo:'3h',
+  s:['Slide 2 a 6: origem e destino, datas e flexibilidade, quantidade de passageiros, classe, se tem milhas próprias','Slide final: "Manda esses 5 dados e a gente busca"','Capa: "5 informações e a gente acha sua passagem"'],
+  e:'Carrossel de 7 slides.',c:'"Manda os 5 dados no WhatsApp e a gente busca."'},
+ {d:'Sexta 13/11',o:'pro',f:'Revisão',t:'Enquete para empresas, relatório e planejamento da semana 4',tempo:'2h',
+  s:['Stories: "Sua empresa viaja quantas vezes por mês?" com enquete','Responder quem votar mais de 3 vezes com uma mensagem de cotação','Somar leads por tipo (passagem, B2B, concierge)','Escolher os 2 melhores posts do mês até agora para reaproveitar'],
+  e:'Relatório da semana 3 e rascunhos da semana 4.',c:'"Sua empresa viaja? Vota aqui."'}
+ ]},
+{n:4,datas:'16/11 a 20/11',tema:'Conversão e balanço',meta:'Transformar o que já funcionou em ofertas claras e fechar o mês com números.',mes:'Contribui para: fechar o mês 1 e decidir o mês 2 com dados.',
+ dias:[
+ {d:'Segunda 16/11',o:'pas',f:'Reel',t:'Reaproveitar o melhor vídeo da viagem do Oliveira com explicação',tempo:'3h',
+  s:['Pegar com o editor do Oliveira um clipe de preço ou emissão','Colocar uma explicação sua em texto: "como a gente emitiu isso"','Citar a série no texto: "Dia X de 30"'],
+  e:'Reel de 25s ligado à viagem.',c:'"Quer emitir igual? Fala com a Sky."'},
+ {d:'Terça 17/11',o:'pas',f:'Carrossel',t:'"Checklist antes de comprar passagem internacional"',tempo:'3h',
+  s:['Passaporte, visto, seguro, bagagem, conexões, horários','Um slide com "o erro que mais custa caro" (informações sempre confirmadas em fonte oficial)','Slide final com a oferta de revisar o plano de viagem'],
+  e:'Carrossel de 7 slides.',c:'"Quer que a gente revise a sua viagem? Chama no WhatsApp."'},
+ {d:'Quarta 18/11',o:'con',f:'Foto ou Reel',t:'"Viagem entregue": um case do concierge (com autorização)',tempo:'3h',
+  s:['Pedir autorização por escrito ao cliente (WhatsApp vale)','Usar fotos ou vídeos reais da viagem, sem documentos à mostra','Contar em 3 linhas o que o concierge resolveu','Se possível, incluir uma frase do cliente'],
+  e:'Post ou Reel pronto com a autorização guardada.',c:'"Quer uma viagem assim? Fala com o concierge."'},
+ {d:'Quinta 19/11',o:'con',f:'Post + Stories',t:'Oferta clara de concierge para o fim de ano',tempo:'3h',
+  s:['Foto ou arte única com o que o concierge entrega para as viagens de fim de ano','Só usar escassez se for real (agenda limitada de atendimentos)','Sequência de 5 stories: o problema, a solução, como funciona, prova, link'],
+  e:'Post fixado e sequência de stories.',c:'"Reserve a sua vaga com o concierge."'},
+ {d:'Sexta 20/11',o:'pro',f:'Revisão',t:'Balanço do mês e plano do mês 2',tempo:'3h',
+  s:['Comparar as métricas com o ponto de partida','Listar os 3 posts que mais geraram lead e os 3 que menos','Somar quantos leads de cada tipo chegaram','Montar o mês 2 com o Diego e o Claude'],
+  e:'Relatório mensal de 1 página.',c:'Não há CTA de post; o objetivo é aprender.'}
+ ]}
+];
+var COL={pas:'var(--pas)',b2b:'var(--b2b)',con:'var(--con)',pro:'var(--pro)'};
+var NOM={pas:'Passagem',b2b:'B2B',con:'Concierge',pro:'Perfil e processo'};
+function get(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var done=get('skyjoao',{}),cur=0;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function render(){
+  var W=WEEKS[cur];
+  document.getElementById('wk').innerHTML=WEEKS.map(function(w,i){
+    return '<button type="button" data-i="'+i+'" aria-pressed="'+(i===cur)+'">'+(w.n===0?'Arranque':'Semana '+w.n)+'<br><span class="mono" style="color:inherit;opacity:.75">'+w.datas+'</span></button>'}).join('');
+  document.getElementById('wkhead').innerHTML='<h3>'+(W.n===0?'Arranque':'Semana '+W.n)+': '+esc(W.tema)+'</h3><p><strong>Meta da semana:</strong> '+esc(W.meta)+'</p><p class="sub">'+esc(W.mes)+'</p>';
+  document.getElementById('days').innerHTML=W.dias.map(function(d,j){
+    var id=W.n+'-'+j,ok=!!done[id];
+    return '<article class="day'+(ok?' done':'')+'" style="--c:'+COL[d.o]+'">'
+     +'<div class="top"><span class="mono">'+d.d+'</span><span class="tag">'+d.f+' · '+NOM[d.o]+'</span></div>'
+     +'<h3>'+esc(d.t)+'</h3>'
+     +'<dl><div><dt>Passo a passo</dt><dd><ul>'+d.s.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></dd></div>'
+     +'<div><dt>Entregar</dt><dd>'+esc(d.e)+' <span class="mono">Tempo: '+d.tempo+'</span></dd></div>'
+     +'<div><dt>Chamada para ação</dt><dd>'+esc(d.c)+'</dd></div></dl>'
+     +'<label><input type="checkbox" data-id="'+id+'"'+(ok?' checked':'')+'> Feito</label></article>';
+  }).join('');
+  var tot=Object.keys(done).filter(function(k){return done[k]}).length;
+  document.getElementById('progtxt').textContent=tot+' de 23 tarefas feitas';
+  document.getElementById('progbar').style.width=(tot/23*100)+'%';
+}
+document.getElementById('wk').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;cur=+b.getAttribute('data-i');render();});
+document.getElementById('days').addEventListener('change',function(e){
+  var id=e.target.getAttribute('data-id');if(!id)return;done[id]=e.target.checked;put('skyjoao',done);render();});
+document.getElementById('copytpl').addEventListener('click',function(){
+  var b=this,t=document.getElementById('tpl');
+  function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar modelo de pedido de revisão'},1800)}
+  function sel(){var r=document.createRange();r.selectNodeContents(t);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  try{navigator.clipboard.writeText(t.textContent).then(ok,sel)}catch(e){sel()}
+});
+document.getElementById('copyres').addEventListener('click',function(){
+  var b=this,t='RESUMO DO PLANO DO JOAO\n';
+  WEEKS.forEach(function(w){
+    t+='\n'+(w.n===0?'Arranque':'Semana '+w.n)+' ('+w.datas+')\n';
+    w.dias.forEach(function(d,j){t+=(done[w.n+'-'+j]?'[x] ':'[ ] ')+d.d+': '+d.t+'\n'});
+  });
+  function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar resumo do que já foi feito'},1800)}
+  try{navigator.clipboard.writeText(t).then(ok,function(){})}catch(e){}
+});
+render();
+</script>

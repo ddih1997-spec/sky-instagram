@@ -1,0 +1,334 @@
+<title>Sky 30 Dias</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: leitura de plano editorial, hero curto, abas de seção, calendário em cartões filtráveis */
+:root{
+  --bg:#F1F4F7; --surface:#FFFFFF; --ink:#0C1B2B; --muted:#55657A; --line:#D6DDE5;
+  --accent:#1B55F0; --accent-ink:#FFFFFF; --pop:#FFC93C; --pop-ink:#3A2A00;
+  --af:#E0731F; --mu:#0D9DBF; --ab:#A9791A; --sg:#D13A76; --th:#0E9E7A;
+  --f-display:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#08111C; --surface:#101D2E; --ink:#EAF0F7; --muted:#93A4B8; --line:#233449;
+  --accent:#6C93FF; --accent-ink:#06122B; --pop:#FFC93C; --pop-ink:#3A2A00;
+  --af:#F29A55; --mu:#4CC9E8; --ab:#E3B75A; --sg:#F07AA6; --th:#3FD3AB; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08111C; --surface:#101D2E; --ink:#EAF0F7; --muted:#93A4B8; --line:#233449;
+  --accent:#6C93FF; --accent-ink:#06122B; --pop:#FFC93C; --pop-ink:#3A2A00;
+  --af:#F29A55; --mu:#4CC9E8; --ab:#E3B75A; --sg:#F07AA6; --th:#3FD3AB; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-body);
+  padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.1rem;font-weight:800}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header.hero{padding:48px 0 28px;display:grid;gap:18px}
+.hero p.lead{font-size:1.15rem;max-width:62ch;color:var(--muted)}
+.hero .row{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:.85rem}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:28px}
+nav.tabs a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 14px;border-radius:8px;font-weight:600;font-size:.9rem}
+nav.tabs a:hover,nav.tabs a:focus-visible{background:var(--surface);outline:2px solid var(--accent)}
+section{padding:36px 0;display:grid;gap:20px;scroll-margin-top:64px}
+section>p.sub{color:var(--muted);max-width:68ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:8px;align-content:start;min-width:0}
+.box.hi{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.box.hi .mono{color:inherit;opacity:.8}
+.box ul{margin:0;padding-left:1.1rem;display:grid;gap:4px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.note{border-left:4px solid var(--pop);background:var(--surface);padding:14px 16px;border-radius:0 10px 10px 0;max-width:72ch}
+/* calendário */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters button{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 12px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.day{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c,var(--line));border-radius:10px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.day.done{opacity:.55}
+.day .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.num{font-family:var(--f-display);font-weight:800;font-size:1.9rem;line-height:1}
+.num small{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-weight:500}
+.tag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+.day h3{font-size:1.02rem}
+.day dl{margin:0;display:grid;gap:6px;font-size:.9rem}
+.day dt{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.day dd{margin:0}
+.day label{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted);cursor:pointer}
+.day input{width:18px;height:18px;accent-color:var(--accent)}
+button.copy{font:inherit;font-size:.82rem;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;padding:8px 12px;border-radius:8px;cursor:pointer;justify-self:start}
+button.copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+pre.tpl{margin:0;white-space:pre-wrap;font-family:var(--f-mono);font-size:.82rem;line-height:1.6;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:420px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+@media (prefers-reduced-motion:reduce){.prog i{transition:none}}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="mono">Instagram da Sky · Plano de ação</span>
+  <h1>30 dias, 5 destinos, tudo pela Sky.</h1>
+  <p class="lead">O Oliveira viaja por África, Ilhas Maurício, Abu Dhabi, Singapura e Tailândia e a conta vira uma série diária: voos emitidos por milhas, hotéis, preços pagos e a economia de verdade. Ninguém aparece na câmera. O que mostra a Sky é a tela, o preço e o ponto de vista dele.</p>
+  <div class="row">
+    <span class="chip"><span class="dot" style="background:var(--af)"></span>África · dias 1 a 6</span>
+    <span class="chip"><span class="dot" style="background:var(--mu)"></span>Maurício · dias 7 a 12</span>
+    <span class="chip"><span class="dot" style="background:var(--ab)"></span>Abu Dhabi · dias 13 a 18</span>
+    <span class="chip"><span class="dot" style="background:var(--sg)"></span>Singapura · dias 19 a 24</span>
+    <span class="chip"><span class="dot" style="background:var(--th)"></span>Tailândia · dias 25 a 30</span>
+  </div>
+  <p class="note"><strong>Atenção:</strong> dividi os 30 dias em 6 por destino, na ordem que você mandou. Faltam as datas reais e qual país da África é. Com isso eu ajusto os dias e troco os temas de visto, vacina e custo para o país certo.</p>
+</header>
+
+<nav class="tabs" aria-label="Seções">
+  <a href="#conceito">Conceito</a><a href="#semana0">Antes da viagem</a><a href="#calendario">Calendário 30 dias</a><a href="#roteiro">Roteiro padrão</a><a href="#ideias">Ideias virais</a><a href="#perfil">Bio e destaques</a><a href="#operacao">Operação</a><a href="#depois">Depois da viagem</a><a href="#metricas">Métricas</a>
+</nav>
+
+<section id="conceito">
+  <h2>Conceito da série</h2>
+  <p class="sub">A viagem é a prova de que a Sky entende de viagem. Cada vídeo mostra uma coisa que a Sky vende: passagem por milhas, hotel com desconto, conexão bem resolvida, roteiro pronto. Quem assiste aprende e, sem ninguém empurrar, entende por que contratar.</p>
+  <div class="grid">
+    <div class="box hi"><span class="mono">Selo fixo</span><h3>"Dia X/30 · Cidade"</h3><p>Todo vídeo abre com o contador e o local. Cria hábito e dá motivo para seguir o perfil.</p></div>
+    <div class="box"><span class="mono">Sem rosto</span><h3>POV + voz em off</h3><p>A câmera mostra o que o Oliveira vê. A voz narra e o texto na tela garante que dá para entender mesmo sem som.</p></div>
+    <div class="box"><span class="mono">Prova real</span><h3>Preço sempre na tela</h3><p>Valor pago, milhas usadas e quanto custaria no site. A economia é o que faz alguém compartilhar.</p></div>
+    <div class="box"><span class="mono">Venda leve</span><h3>Um CTA por vídeo</h3><p>"Quer isso na sua viagem? Chama no WhatsApp" para viajante. "Sua empresa paga isso?" para B2B.</p></div>
+  </div>
+  <div class="scroll"><table>
+    <tr><th>Pilar</th><th>Papel</th><th>Peso na série</th><th>CTA</th></tr>
+    <tr><td><strong>Economia real</strong></td><td>Atrai e viraliza</td><td>≈ 35% (POV de custo e erros)</td><td>Seguir e salvar</td></tr>
+    <tr><td><strong>Concierge</strong></td><td>Converte alto ticket</td><td>≈ 25%</td><td>WhatsApp: "quero meu roteiro"</td></tr>
+    <tr><td><strong>Sky Corporativo (B2B)</strong></td><td>Abre empresas</td><td>≈ 15%</td><td>WhatsApp: "cotação para minha empresa"</td></tr>
+    <tr><td><strong>Educação e destino</strong></td><td>Autoridade e salvamentos</td><td>≈ 25%</td><td>Compartilhar com quem vai viajar</td></tr>
+  </table></div>
+</section>
+
+<section id="semana0">
+  <h2>Semana 0: o que fazer antes dele embarcar</h2>
+  <p class="sub">Esta semana é a que mais decide se os 30 dias saem bem. O Oliveira precisa sair com tudo configurado, porque lá fora o tempo dele é curto.</p>
+  <div class="grid">
+    <div class="box"><span class="mono">Perfil</span><h3>Arrumar a vitrine</h3>
+      <ul><li>Bio nova (modelo na seção "Bio e destaques")</li><li>Link único para o WhatsApp</li><li>Destaques: Concierge, Empresas, Milhas, Viagem 30 dias</li><li>Fixar 3 posts: o melhor Reel, o concierge e o B2B</li></ul></div>
+    <div class="box"><span class="mono">Equipamento</span><h3>Kit de gravação</h3>
+      <ul><li>Celular com 128 GB livres ou mais</li><li>Microfone de lapela sem fio</li><li>Estabilizador de bolso</li><li>2 power banks e cabos</li><li>Adaptador universal de tomada</li><li>eSIM ou chip local para subir arquivos</li></ul></div>
+    <div class="box"><span class="mono">Fluxo</span><h3>Pasta e rotina</h3>
+      <ul><li>Pasta compartilhada com subpasta por dia (Dia01, Dia02...)</li><li>Envio do bruto toda noite, em qualquer wi-fi</li><li>Grupo de WhatsApp só para o conteúdo</li><li>Combinar o horário em que o editor responde</li></ul></div>
+    <div class="box"><span class="mono">Teaser</span><h3>7 dias antes: aquecer</h3>
+      <ul><li>D-7: "Daqui a uma semana eu saio por 30 dias"</li><li>D-5: mapa da rota em animação</li><li>D-3: "o que vai na mala de quem viaja com milhas"</li><li>D-2: enquete nos stories: "qual país vocês querem ver?"</li><li>D-1: contagem regressiva e a série nasce</li></ul></div>
+  </div>
+  <div class="note">Mande para o Oliveira uma folha de uma página com o <strong>checklist diário de captura</strong>: 3 cenas de abertura, 1 cena de preço na tela, 1 cena de dica, 1 cena do ambiente e 10 segundos de voz comentando o dia. Com isso o editor consegue montar qualquer vídeo.</div>
+</section>
+
+<section id="calendario">
+  <h2>Calendário dos 30 dias</h2>
+  <p class="sub">Cada dia traz um formato, um gancho para os 2 primeiros segundos, as cenas que o Oliveira precisa filmar e o CTA. Marque o dia como publicado e o progresso fica salvo neste navegador.</p>
+  <div class="filters" role="group" aria-label="Filtros">
+    <button type="button" data-f="todos" aria-pressed="true">Todos</button>
+    <button type="button" data-f="af" aria-pressed="false">África</button>
+    <button type="button" data-f="mu" aria-pressed="false">Maurício</button>
+    <button type="button" data-f="ab" aria-pressed="false">Abu Dhabi</button>
+    <button type="button" data-f="sg" aria-pressed="false">Singapura</button>
+    <button type="button" data-f="th" aria-pressed="false">Tailândia</button>
+    <button type="button" data-f="Custo" aria-pressed="false">Custo</button>
+    <button type="button" data-f="Erro" aria-pressed="false">Erro</button>
+    <button type="button" data-f="Concierge" aria-pressed="false">Concierge</button>
+    <button type="button" data-f="B2B" aria-pressed="false">B2B</button>
+  </div>
+  <div><span class="mono" id="progtxt">0 de 30 publicados</span><div class="prog" aria-hidden="true"><i id="progbar"></i></div></div>
+  <div class="days" id="days"></div>
+</section>
+
+<section id="roteiro">
+  <h2>Roteiro padrão de todo Reel</h2>
+  <p class="sub">Use sempre a mesma estrutura. O editor trabalha mais rápido e o público aprende a reconhecer o formato.</p>
+  <pre class="tpl" id="tpl">GANCHO (0 a 2s)
+Texto grande na tela + voz em off. Uma pergunta ou um número.
+Ex.: "Esse voo custava R$ 6.800. Eu paguei R$ 2.900."
+
+PROVA (2 a 15s)
+Tela do preço, comparação com o site, cena do lugar.
+Mostre o número exato. Corte a cada 2 ou 3 segundos.
+
+DICA (15 a 25s)
+Uma única ideia útil que a pessoa leva dali.
+
+CTA (últimos 3s)
+Uma só chamada: "Chama a Sky no WhatsApp" ou "Salva pra sua viagem".
+
+LEGENDA
+Primeira linha repete o gancho. Depois 2 linhas de contexto, o CTA e 5 hashtags no máximo.
+
+TÉCNICO
+9:16, 1080x1920, legenda embutida, música sem direitos autorais, capa com o selo "Dia X/30".</pre>
+  <button class="copy" type="button" id="copytpl">Copiar roteiro padrão</button>
+</section>
+
+<section id="ideias">
+  <h2>20 ideias de Reels com chance de viralizar</h2>
+  <p class="sub">Para usar dentro da viagem ou depois dela, sempre sem aparecer.</p>
+  <div class="grid" id="ideias-grid"></div>
+</section>
+
+<section id="perfil">
+  <h2>Bio, destaques e identidade</h2>
+  <div class="grid">
+    <div class="box"><span class="mono">Bio sugerida</span>
+      <p><strong>Sky Exclusive</strong><br>Passagens com milhas, concierge de viagem e passagens corporativas.<br>Viagem planejada do começo ao fim.<br>Fale com a gente no WhatsApp ↓</p></div>
+    <div class="box"><span class="mono">Destaques</span>
+      <ul><li><strong>Série 30 dias</strong>: resumo por continente</li><li><strong>Concierge</strong>: como funciona e entregas</li><li><strong>Empresas</strong>: viagens corporativas</li><li><strong>Milhas 101</strong>: mitos e dúvidas</li><li><strong>Clientes</strong>: prints de depoimentos</li></ul></div>
+    <div class="box"><span class="mono">Identidade visual</span>
+      <ul><li>Uma cor por destino: laranja (África), azul-turquesa (Maurício), dourado (Abu Dhabi), rosa (Singapura), verde (Tailândia)</li><li>Selo "Dia X/30" no canto superior esquerdo</li><li>Mesma fonte de título em todas as capas</li><li>Capa do Reel sempre com número ou local</li></ul></div>
+  </div>
+</section>
+
+<section id="operacao">
+  <h2>Operação: quem faz o quê</h2>
+  <div class="scroll"><table>
+    <tr><th>Quem</th><th>Faz</th><th>Quando</th></tr>
+    <tr><td><strong>Oliveira</strong></td><td>Filma, sobe o bruto e grava 10s de áudio comentando o dia</td><td>Todo dia, à noite</td></tr>
+    <tr><td><strong>Editor</strong></td><td>Monta o Reel, cria capa e legenda, agenda a publicação</td><td>Edita em lotes de 3 dias; publica diariamente</td></tr>
+    <tr><td><strong>Diego</strong></td><td>Aprova o conteúdo, responde DMs e comentários, passa leads ao comercial</td><td>Diariamente, em 20 minutos</td></tr>
+    <tr><td><strong>Comercial Sky</strong></td><td>Atende quem chega pelo WhatsApp com cotação e proposta</td><td>Em até 1 hora no horário comercial</td></tr>
+  </table></div>
+  <div class="grid">
+    <div class="box"><span class="mono">Regras de segurança</span>
+      <ul><li>Nunca mostrar dados, nome ou documento de cliente</li><li>Não publicar a localização em tempo real do hotel; publique depois de sair</li><li>Pedir autorização antes de mostrar o rosto de pessoas locais</li><li>Conferir vistos, vacinas e regras de entrada em fonte oficial antes de postar dica sobre isso</li></ul></div>
+    <div class="box"><span class="mono">Atendimento de DMs</span>
+      <ul><li>Resposta padrão para "quanto custa?": pedir origem, destino e datas</li><li>Todo interesse em concierge vai para o WhatsApp</li><li>Todo interesse corporativo vai para um formulário curto com nome da empresa e número de viajantes</li></ul></div>
+  </div>
+</section>
+
+<section id="depois">
+  <h2>Depois dos 30 dias: não deixe a série morrer</h2>
+  <p class="sub">A audiência que chega na viagem precisa de um motivo para ficar. Nas duas semanas seguintes, reaproveite e converta.</p>
+  <div class="grid">
+    <div class="box"><span class="mono">Semana 5</span><h3>Balanço</h3><p>Reels com os números totais: quanto gastou, quanto economizou, o melhor e o pior momento, 5 erros que não cometeria de novo.</p></div>
+    <div class="box"><span class="mono">Semana 6</span><h3>Reaproveitamento</h3><p>Recortes dos melhores trechos em Reels novos, um carrossel por continente e um vídeo "perguntas que vocês fizeram".</p></div>
+    <div class="box"><span class="mono">A partir da semana 7</span><h3>Ritmo fixo</h3><p>3 Reels por semana: 1 de economia, 1 de concierge e 1 de B2B. Mais 2 carrosséis por mês e stories diários com enquete ou bastidor.</p></div>
+  </div>
+</section>
+
+<section id="metricas">
+  <h2>Como medir se está funcionando</h2>
+  <p class="sub">As metas abaixo são sugestões para começar. Ajuste depois das duas primeiras semanas, quando houver número real do perfil.</p>
+  <div class="scroll"><table>
+    <tr><th>Métrica</th><th>Por que importa</th><th>Onde ver</th></tr>
+    <tr><td><strong>Alcance de não seguidores</strong></td><td>Mostra se o Reel está furando a bolha</td><td>Insights do Reel</td></tr>
+    <tr><td><strong>Salvamentos e compartilhamentos</strong></td><td>Os sinais que mais empurram o algoritmo</td><td>Insights do Reel</td></tr>
+    <tr><td><strong>Retenção (tempo médio assistido)</strong></td><td>Diz se o gancho e o ritmo funcionam</td><td>Insights do Reel</td></tr>
+    <tr><td><strong>Visitas ao perfil e cliques no link</strong></td><td>Conversão de espectador em interessado</td><td>Insights do perfil</td></tr>
+    <tr><td><strong>Conversas iniciadas no WhatsApp</strong></td><td>A métrica de venda: separar concierge, B2B e passagem avulsa</td><td>Planilha do comercial, com origem "Instagram"</td></tr>
+  </table></div>
+  <div class="note">Toda sexta, em 15 minutos: veja os 3 Reels de maior alcance e os 3 de menor, descubra o que os melhores têm em comum e repita na semana seguinte.</div>
+</section>
+</div>
+
+<script>
+var REG={af:'África',mu:'Maurício',ab:'Abu Dhabi',sg:'Singapura',th:'Tailândia'};
+var COL={af:'var(--af)',mu:'var(--mu)',ab:'var(--ab)',sg:'var(--sg)',th:'var(--th)'};
+/* [formato, gancho, cenas a filmar, cta] */
+var D=[
+['Custo','"Voo de R$ 6.800 por R$ 2.900. Olha como."','Cartão de embarque, tela da emissão com milhas usadas, lounge ou portão','Salva para sua próxima viagem'],
+['POV','"Primeira refeição na África. Quanto custou?"','Prato, cardápio, preço na tela, rua ao redor','Segue para ver os 30 dias'],
+['Erro','"Visto e vacina: o que checar antes de ir à África."','Tela com a página oficial do governo, passaporte sem dados à mostra','Chama a Sky para checar o seu destino'],
+['Concierge','"Do pouso ao safári: tudo organizado por um concierge."','Roteiro na tela, guia local, traslado, hospedagem','WhatsApp: "quero meu roteiro"'],
+['Custo','"Quanto custa um dia inteiro aqui?"','Soma na tela de hospedagem, comida, transporte e passeio','Salva para planejar'],
+['Carrossel','"Resumo da África: 7 coisas que ninguém conta."','Slides com fotos, preços e dicas dos últimos dias','Compartilha com quem sonha com isso'],
+['Custo','"Resort nas Ilhas Maurício pagando quanto?"','Chegada ao resort, tela da reserva, comparação com o site, quarto','Quer essa economia? WhatsApp na bio'],
+['Concierge','"7 dias em Maurício montados por um concierge."','Roteiro animado em tela, hotel, passeios, traslados','WhatsApp: "quero um roteiro assim"'],
+['POV','"Um dia sem plano em Maurício: quanto gastei."','Praia, passeio de barco, almoço, preços na tela','Salva para a lua de mel'],
+['Erro','"Resort tudo incluso: o que não está incluso."','Conta do hotel, extras, traslado, câmbio','Manda para quem vai viajar'],
+['B2B','"Destino de ilha: como a empresa evita conexão perdida."','Tela do itinerário com conexões, plano B, remarcação','Cotação corporativa pelo WhatsApp'],
+['Carrossel','"Resumo de Maurício: quanto custa de verdade."','Slides com voo, hotel, passeios e total','Salva e compartilha'],
+['Custo','"Executiva por milhas para Abu Dhabi: antes e depois."','Cabine, tela da emissão, preço de mercado vs milhas','Salva e chama a Sky'],
+['POV','"Escala em Abu Dhabi: dá para sair do aeroporto?"','Saída do aeroporto, cidade, tempo e preço do trajeto','Segue a série'],
+['Concierge','"Hotel de luxo, traslado e passeio sem abrir um site."','Lobby, tela do roteiro, Grande Mesquita, traslado','WhatsApp: "quero meu roteiro"'],
+['Erro','"O que não fazer em Abu Dhabi: vestimenta, regras e multas."','Textos na tela com regras (confira em fonte oficial antes de postar)','Manda para quem vai viajar'],
+['B2B','"Por que tanta empresa usa Abu Dhabi como conexão."','Mapa animado, tela de tarifas corporativas, remarcação','Cotação corporativa pelo WhatsApp'],
+['Custo','"Quanto custa um dia em Abu Dhabi."','Soma na tela de hospedagem, comida, transporte e passeio','Salva para planejar'],
+['Custo','"Voo para Singapura: o que paguei e o que o site cobrava."','Embarque, tela da emissão, comparação com preço de mercado','Quer essa economia? WhatsApp na bio'],
+['POV','"Primeiro dia em Singapura: a cidade mais organizada do mundo?"','Rua limpa, metrô, hawker center, preço da refeição na tela','Segue a série'],
+['Erro','"Singapura: o que pode dar multa e o que preencher antes de chegar."','Tela do formulário oficial, placas de proibição (confira em fonte oficial)','Manda para quem vai viajar'],
+['B2B','"Singapura como destino de negócios: quanto sua equipe economiza."','Tela de simulação, tarifa corporativa, remarcação','Cotação corporativa pelo WhatsApp'],
+['Concierge','"3 dias em Singapura montados por um concierge."','Roteiro animado, hotel, passeios, traslados','WhatsApp: "quero um roteiro assim"'],
+['Carrossel','"Resumo de Singapura: quanto custa e o que vale."','Slides de preços, dicas e erros','Salva e compartilha'],
+['Custo','"Tailândia: voo e hotel pagando quanto?"','Tela da emissão, quarto, comparação com o site','Salva e chama a Sky'],
+['POV','"Street food em Bangkok: o prato mais barato e o mais caro."','Barracas, comida sendo feita, dois preços, reação em voz','Segue para o balanço'],
+['Erro','"eSIM vs chip de roaming e o golpe do tuk-tuk."','Tela do plano e comparação de preço; cenas de rua','Salva a dica'],
+['Concierge','"7 dias na Tailândia: cidade, ilha e transfer resolvidos."','Roteiro na tela, voo doméstico, hotel, barco','WhatsApp: "quero meu roteiro"'],
+['Custo','"BALANÇO: tudo o que gastei em 30 dias e a economia total."','Tela do total, comparação com preço de mercado','Quer o mesmo? WhatsApp na bio'],
+['POV','"Voltei. E se a sua viagem fosse assim?"','Chegada em casa, mala, tela do WhatsApp da Sky','Chama a Sky: concierge ou empresa']
+];
+var IDEIAS=[
+'Passagem de R$ 6.800 por R$ 2.900, com a tela da emissão',
+'O que a classe executiva realmente oferece e quanto custa em milhas',
+'3 erros que fazem você perder dinheiro em passagem',
+'Quanto custa um dia em cada cidade da rota',
+'O que levar na mala de quem viaja por 30 dias, com preço de cada item',
+'Mapa animado da rota com preço de cada trecho',
+'Mitos de milhas que custam caro a quem acredita neles',
+'Comparação: site de promoção vs emissão da Sky',
+'Quanto uma empresa economiza por ano emitindo com a Sky',
+'Um dia de concierge, do pouso à volta',
+'Aeroportos com a melhor sala VIP e como entrar de graça',
+'Hotel 5 estrelas pagando quanto?',
+'O voo mais longo da viagem em 20 segundos',
+'Perrengue do dia e a solução em 15 segundos',
+'Pergunte nos stories e responda em Reel',
+'Teste: adivinhe o preço antes da revelação',
+'Time-lapse de aeroporto com texto sobre conexões',
+'Antes e depois de um roteiro: bagunça vs concierge',
+'O erro que quase me custou R$ 2.000',
+'O que um agente de viagens sabe que o site não mostra'
+];
+function get(k,def){try{var v=localStorage.getItem(k);return v?JSON.parse(v):def}catch(e){return def}}
+function set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var done=get('sky30done',{}),flt='todos';
+function reg(n){return n<=6?'af':n<=12?'mu':n<=18?'ab':n<=24?'sg':'th'}
+function render(){
+  var h='',c=0;
+  D.forEach(function(d,i){
+    var n=i+1,r=reg(n),ok=!!done[n];
+    if(ok)c++;
+    if(flt!=='todos'&&flt!==r&&flt!==d[0])return;
+    h+='<article class="day'+(ok?' done':'')+'" style="--c:'+COL[r]+'">'
+     +'<div class="top"><span class="num">'+n+'<small>/30</small></span><span class="tag">'+d[0]+'</span></div>'
+     +'<span class="mono">'+REG[r]+' · Dia '+n+'/30</span>'
+     +'<h3>'+d[1]+'</h3>'
+     +'<dl><div><dt>Cenas a filmar</dt><dd>'+d[2]+'</dd></div><div><dt>CTA</dt><dd>'+d[3]+'</dd></div></dl>'
+     +'<label><input type="checkbox" data-n="'+n+'"'+(ok?' checked':'')+'> Publicado</label></article>';
+  });
+  document.getElementById('days').innerHTML=h||'<p>Nenhum dia neste filtro.</p>';
+  var tot=Object.keys(done).filter(function(k){return done[k]}).length;
+  document.getElementById('progtxt').textContent=tot+' de 30 publicados';
+  document.getElementById('progbar').style.width=(tot/30*100)+'%';
+}
+document.getElementById('days').addEventListener('change',function(e){
+  var n=e.target.getAttribute('data-n');if(!n)return;
+  done[n]=e.target.checked;set('sky30done',done);render();
+});
+document.querySelector('.filters').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  flt=b.getAttribute('data-f');
+  document.querySelectorAll('.filters button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+  render();
+});
+document.getElementById('ideias-grid').innerHTML=IDEIAS.map(function(t,i){
+  return '<div class="box"><span class="mono">Ideia '+(i+1)+'</span><p>'+t+'</p></div>'}).join('');
+document.getElementById('copytpl').addEventListener('click',function(){
+  var b=this,t=document.getElementById('tpl');
+  function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar roteiro padrão'},1800)}
+  try{navigator.clipboard.writeText(t.textContent).then(ok,function(){sel()})}catch(e){sel()}
+  function sel(){var r=document.createRange();r.selectNodeContents(t);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+});
+render();
+</script>
